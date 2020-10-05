@@ -51,7 +51,7 @@ namespace DebugViewer
         public void DrawCatergory(Rect position, GUIStyle headerStyle)
             {
             Rect headerRect = DrawPosition = position;
-            headerRect.height = 19;
+            headerRect.height = 20;
 
             Rect backgroundRect = new Rect (DrawPosition.x - 2, DrawPosition.y - 2, DrawPosition.width + 4, DrawPosition.height + 4);
 

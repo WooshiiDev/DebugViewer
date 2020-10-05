@@ -103,7 +103,7 @@ namespace DebugViewer
                 if (previousCat != null)
                     {
                     drawRect.y = previousCat.DrawPosition.y;
-                    drawRect.y += (previousCat.IsShown ? previousCat.GetHeight () + 1f : 20f);
+                    drawRect.y += (previousCat.IsShown ? previousCat.GetHeight () + 5f : 20f);
 
                     drawRect.height = height;
                     }
