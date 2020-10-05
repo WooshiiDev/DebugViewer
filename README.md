@@ -10,6 +10,7 @@ This is achieved by catergorizing all data shown, with a toggle to show and hide
 ![](https://i.imgur.com/Hb7vhBS.gif)
 ### Usage
 There are 3 main classes to use.
+
 `DebugViewer.cs` is the MonoBehaviour that is required to run the debug. This is also the class that contains methods to add debug information.
 `DebugCatergory.cs` is the class to store all catergory information, including draw position and the list of information.
 `DebugInformation.cs` is the class for fields to use to store and hold the values for target variables.
