@@ -21,6 +21,7 @@ To use DebugViewer, after downloading and installing into your project, there wi
 *Note: Using Attributes is much easier and faster, but the methods have been kept in for convenience and accessibility*
 
 **Methods**
+
 You can use methods directly from `DebugViewer.cs` to add required information:
 ```cs
 //public static void AddInformationToCatergory(string catergory, DebugInformation information, bool addCatergory = false)
@@ -28,6 +29,7 @@ DebugViewer.AddInformationToCatergory ("Catergory Name", new DebugInformation ("
 ```
 
 **Attributes**
+
 Attributes are straight forward, by adding the attribute directly to the variable:
 ```cs
 [Debug ("Player", "Max Health")] public int maxHealth = 100;
