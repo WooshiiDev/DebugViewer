@@ -7,7 +7,9 @@
 Debug Viewer is an extremely lightweight built into the unity game window to remove overuse of the console and to allow for easier visualization of variables directly.
 
 This is achieved by catergorizing all data shown, with a toggle to show and hide, keeping it clean, easy and simple.
-![](https://i.imgur.com/Hb7vhBS.gif)
+
+![](https://i.imgur.com/mLFl0JA.gif)
+
 ### Usage
 There are 3 main classes to use.
 
