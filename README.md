@@ -1,7 +1,7 @@
 # Debug Viewer
 [![Unity 2018.3+](https://img.shields.io/badge/unity-2018.4%2B-blue.svg)](https://unity3d.com/get-unity/download) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/WooshiiDev/HierarchyDecorator/blob/master/LICENSE)
 ### Downloads
-[UnityPackage](https://github.com/WooshiiDev/DebugViewer/blob/main/Assets/DebugViewer.unitypackage) | [Zip Download](https://github.com/WooshiiDev/DebugViewer/archive/main.zip)
+[UnityPackage](https://github.com/WooshiiDev/DebugViewer/raw/main/Assets/DebugViewer.unitypackage) | [Zip Download](https://github.com/WooshiiDev/DebugViewer/archive/main.zip)
 
 ### Summary
 Debug Viewer is an extremely lightweight built into the unity game window to remove overuse of the console and to allow for easier visualization of variables directly.
