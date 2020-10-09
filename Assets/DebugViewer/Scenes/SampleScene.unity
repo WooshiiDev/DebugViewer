@@ -331,6 +331,13 @@ MonoBehaviour:
   runSpeed: 10
   meleeDamage: 9
   shootDamage: 6
+  stats:
+  - Attack
+  - Speed
+  - Damage
+  - Armour
+  intStats: 
+  floatStats: []
 --- !u!4 &1217315763
 Transform:
   m_ObjectHideFlags: 0
@@ -376,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDebug: 1
   searchForAttributes: 1
-  defaultCatergories: []
+  defaultCategories: []
 --- !u!4 &1422927486
 Transform:
   m_ObjectHideFlags: 0

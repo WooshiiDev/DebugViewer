@@ -11,64 +11,42 @@ namespace DebugViewer
         public bool showDebug;
         public bool searchForAttributes;
 
-        public string[] defaultCatergories;
+        public string[] defaultCategories;
 
         private GUIStyle header;
-        private static Dictionary<string, DebugCatergory> catergories = new Dictionary<string, DebugCatergory> ();
+        private static Dictionary<string, DebugCategory> categories = new Dictionary<string, DebugCategory> ();
 
         private void Awake()
             {
-            if (defaultCatergories != null)
+            if (defaultCategories != null)
                 {
-                for (int i = 0; i < defaultCatergories.Length; i++)
+                for (int i = 0; i < defaultCategories.Length; i++)
                     {
-                    string catergory = defaultCatergories[i];
+                    string category = defaultCategories[i];
 
-                    if (!catergories.ContainsKey (catergory))
-                        catergories.Add (catergory, new DebugCatergory (catergory));
+                    if (!categories.ContainsKey (category))
+                        {
+                        categories.Add (category, new DebugCategory (category));
+                        }
                     }
                 }
             }
 
         private void Start()
             {
-            //Only search for attributes if they're needed/wanted
+            //Called in start to make sure everything is loaded propertly
             if (searchForAttributes)
                 {
-                //Look for all monobehaviour components
-                var components = FindObjectsOfType<MonoBehaviour> ();
-
-                //Iterate through
-                for (int i = 0; i < components.Length; i++)
-                    {
-                    var component = components[i];
-                    Type componentType = component.GetType ();
-
-                    //Get all fields
-                    FieldInfo[] types = UnityReflectionUtil.GetFields (componentType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default);
-
-                    //Iterate over fields and look for the DebugAttribute, if it exists, add it to the correct place
-
-                    for (int j = 0; j < types.Length; j++)
-                        {
-                        var field = types[j];
-
-                        Attribute attribute = field.GetCustomAttribute (typeof (DebugAttribute));
-
-                        if (attribute != null)
-                            {
-                            DebugAttribute debugAttr = attribute as DebugAttribute;
-                            AddInformationToCatergory (debugAttr.Catergory, new DebugInformation (debugAttr.Name, component, field.Name), true);
-                            }
-                        }
-                    }
+                FindAttributes ();
                 }
             }
 
         private void OnGUI()
             {
             if (!showDebug)
+                {
                 return;
+                }
 
             //Could put it in awake, but it's not going to take anything away being here
             if (header == null)
@@ -81,62 +59,94 @@ namespace DebugViewer
 
                 header.normal.textColor = Color.white;
                 }
-       
 
-            var cats = catergories.Values.ToArray ();
+            DebugCategory[] cats = categories.Values.ToArray ();
 
-            DebugCatergory previousCat = null;
+            DebugCategory previousCat = null;
             Rect drawRect = new Rect ();
 
-            //Iterate over catergories and draw information 
+            //Iterate over categories and draw information
             for (int i = 0; i < cats.Length; i++)
                 {
-                var cat = cats[i];
+                DebugCategory cat = cats[i];
 
                 if (cat.information.Count == 0)
+                    {
                     continue;
+                    }
 
                 float height = cat.GetHeight ();
 
                 drawRect.Set (10, 10, 350, height);
 
+                //Previous category checks
                 if (previousCat != null)
                     {
                     drawRect.y = previousCat.DrawPosition.y;
                     drawRect.y += (previousCat.IsShown ? previousCat.GetHeight () + 5f : 20f);
-
-                    drawRect.height = height;
                     }
 
-                cat.DrawCatergory (drawRect, header);
+                cat.DrawCategory (drawRect, header);
                 previousCat = cat;
                 }
             }
 
-        /// <summary>
-        /// Add a new information field to the catergory provided
-        /// </summary>
-        /// <param name="catergory">The catergory to add the information to</param>
-        /// <param name="information">The information to add</param>
-        /// <param name="addCatergory">Optional boolean to add the catergory if it doesn't already exist</param>
-        public static void AddInformationToCatergory(string catergory, DebugInformation information, bool addCatergory = false)
+        private void FindAttributes()
             {
-            if (!catergories.ContainsKey (catergory))
+            //Look for all monobehaviour components
+            MonoBehaviour[] components = FindObjectsOfType<MonoBehaviour> ();
+
+            //Iterate through
+            for (int i = 0; i < components.Length; i++)
                 {
-                if (!addCatergory)
+                MonoBehaviour component = components[i];
+                Type componentType = component.GetType ();
+
+                //Get all fields
+                FieldInfo[] types = ReflectionUtil.GetFields (componentType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Default | BindingFlags.Static);
+
+                //Iterate over fields and look for the DebugAttribute, if it exists, add it to the correct place
+                for (int j = 0; j < types.Length; j++)
                     {
-                    Debug.Log ("Cannot find catergory to add debug to!");
+                    FieldInfo field = types[j];
+
+                    Attribute attribute = field.GetCustomAttribute (typeof (DebugAttribute));
+
+                    if (attribute != null)
+                        {
+                        DebugAttribute debugAttr = attribute as DebugAttribute;
+                        AddInformationToCategory (debugAttr.Category, new DebugField (debugAttr.Name, field.Name, component), true);
+                        }
+                    }
+                }
+            }
+
+        /// <summary>
+        /// Add a new information field to the category provided
+        /// </summary>
+        /// <param name="category">The category to add the information to</param>
+        /// <param name="information">The information to add</param>
+        /// <param name="addCategory">Optional boolean to add the category if it doesn't already exist</param>
+        public static void AddInformationToCategory(string category, DebugField information, bool addCategory = false)
+            {
+            //If the category doesn't exist add it (if allowed) or return;
+            if (!categories.ContainsKey (category))
+                {
+                if (!addCategory)
+                    {
+                    Debug.Log ("Cannot find category to add debug to!");
                     return;
                     }
 
-                AddCatergory (catergory);
+                AddCategory (category);
                 }
 
-            var cat = catergories[catergory];
+            DebugCategory cat = categories[category];
 
+            //No point adding data that already exists
             if (cat.information.Contains (information))
                 {
-                Debug.Log ("Catergory already contains debug information of " + information.name);
+                Debug.Log ("Category already contains debug information of " + information.Name);
                 return;
                 }
 
@@ -144,41 +154,49 @@ namespace DebugViewer
             }
 
         /// <summary>
-        /// Add a new catergory
+        /// Add a new category
         /// </summary>
-        /// <param name="catName"></param>
-        public static void AddCatergory(string catName)
+        /// <param name="category">The new category name</param>
+        public static void AddCategory(string category)
             {
-            if (catergories.ContainsKey (catName))
+            //Return if the category already exists
+            if (categories.ContainsKey (category))
                 {
-                Debug.LogWarning ("Cannot add catergory " + catName + " as it already exists.");
+                Debug.LogWarning ("Cannot add category " + category + " as it already exists.");
                 return;
                 }
 
-            catergories.Add (catName, new DebugCatergory (catName));
+            categories.Add (category, new DebugCategory (category));
             }
 
         /// <summary>
-        /// Add a new catergory with an array of <seealso cref="DebugInformation"/>'s added to it
+        /// Add a new category with an array of <seealso cref="DebugField"/>'s added to it
         /// </summary>
-        /// <param name="catName">The name of the catergory to create</param>
-        /// <param name="info">The DebugInformation values to add to the catergory</param>
-        public static void AddCatergory(string catName, params DebugInformation[] info)
+        /// <param name="category">The name of the category to create</param>
+        /// <param name="info">The DebugInformation values to add to the category</param>
+        public static void AddCategory(string category, params DebugField[] info)
             {
-            if (catergories.ContainsKey (catName))
-                Debug.LogWarning ("Cannot add catergory " + catName + " as it already exists.");
+            //Only add the category if it doesn't already exist
+            if (categories.ContainsKey (category))
+                {
+                Debug.LogWarning ("Cannot add category " + category + " as it already exists.");
+                }
             else
-                catergories.Add (catName, new DebugCatergory (catName));
+                {
+                categories.Add (category, new DebugCategory (category));
+                }
 
             if (info == null || info.Length == 0)
+                {
                 return;
+                }
 
+            //Add fields to category
             for (int i = 0; i < info.Length; i++)
                 {
-                var element = info[i];
-                catergories[catName].AddInfo (element);
+                DebugField element = info[i];
+                categories[category].AddInfo (element);
                 }
             }
         }
     }
-
