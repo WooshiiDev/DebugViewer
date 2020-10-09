@@ -5,10 +5,9 @@ namespace DebugViewer
     {
     public class ExampleScript : MonoBehaviour
         {
-        [Header ("Example Fields")]
-        [Debug ("Player", "Max Health")] private int maxHealth = 100;
-
-        [Debug ("Player", "Current Health")] private int currentHealth = 100;
+        [Header ("Basic Fields")]
+        [Debug ("Player", "Max Health")] public int maxHealth = 100;
+        [Debug ("Player", "Current Health")] public int currentHealth = 100;
 
         public int walkSpeed = 5;
         public int runSpeed = 10;
@@ -16,7 +15,7 @@ namespace DebugViewer
         public int meleeDamage = 9;
         public int rangeDamage = 6;
 
-        //Other examples
+        [Header ("Collections")]
         [Debug ("Collections", "Stat Names")] public string[] stats;
 
         [Debug ("Collections", "Integer Array")] public int[] intStats;
@@ -31,7 +30,7 @@ namespace DebugViewer
             DebugViewer.AddInformationToCategory ("Movement", new DebugField ("Run Speed", "runSpeed", this), true);
 
             DebugViewer.AddInformationToCategory ("Damage", new DebugField ("Melee Damage", "meleeDamage", this), true);
-            DebugViewer.AddInformationToCategory ("Damage", new DebugField ("Shoot Damage", "shootDamage", this), true);
+            DebugViewer.AddInformationToCategory ("Damage", new DebugField ("Shoot Damage", "rangeDamage", this), true);
 
             intStats = new int[4];
 

@@ -71,7 +71,7 @@ namespace DebugViewer
             //Initial check
             if (field == null)
                 {
-                field = target.GetType ().GetField (fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                field = target.GetType ().GetField (fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
                 //No point going on if it's still null
                 if (field == null)
