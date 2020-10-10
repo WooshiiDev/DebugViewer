@@ -1,13 +1,15 @@
 # Debug Viewer
 [![Unity 2018.3+](https://img.shields.io/badge/unity-2018.4%2B-blue.svg)](https://unity3d.com/get-unity/download) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://github.com/WooshiiDev/HierarchyDecorator/blob/master/LICENSE)
 ### Downloads
-[UnityPackage](https://github.com/WooshiiDev/DebugViewer/blob/main/Assets/DebugViewer.unitypackage) | [Zip Download](https://github.com/WooshiiDev/DebugViewer/archive/main.zip)
+[UnityPackage](https://github.com/WooshiiDev/DebugViewer/raw/main/Assets/DebugViewer.unitypackage) | [Zip Download](https://github.com/WooshiiDev/DebugViewer/archive/main.zip)
 
 ### Summary
-Debug Viewer is an extremely lightweight built into the unity game window to remove overuse of the console and to allow for easier visualization of variables directly.
+Debug Viewer is an extremely lightweight variable viewer, built into the unity game window to remove overuse of the console and to allow for easier visualization of variables directly.
 
 This is achieved by catergorizing all data shown, with a toggle to show and hide, keeping it clean, easy and simple.
+
 ![](https://i.imgur.com/pd07El2.gif)
+
 ### Usage
 There are 3 main classes to use.
 
@@ -40,6 +42,7 @@ Attributes are straight forward, by adding the attribute directly to the variabl
 Even though this is a small project, things like this and other repositories I work on and upload on here do take time, to not just implement, but to also design and sometimes make efficient. If you would like to support me, you can do so below:
 
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/Wooshii?locale.x=en_GB)
+
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L3L026UOE)
 
 Development will be continued with this and will forever stay public and free.
